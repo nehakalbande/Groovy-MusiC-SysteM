@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% block title %} All Users  {{ title }} {% endblock title %} 
+{% block header %}
+<style>
+    .or-seperator {
+    margin: 20px 0 10px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+.or-seperator i {
+    padding: 0 10px;
+    background: #f7f7f7;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+}
+
+</style>
+{% endblock header %}
+{% block body %}
+    {% comment %}
+    <h1>{{users}}</h1>
+    {% endcomment %} 
+    
+    {% for i in users %}
+    <div class="card">
+        <div class="card-header">Header</div>
+        <div class="card-body">Content</div> 
+        <div class="card-footer">      
+          <div class="btn-wrapper text-center">
+            <a class="btn btn-secondary text-dark btn-sm">{{i.username}}</a> 
+            <a class="btn btn-warning" style="">Next</a>
+          </div>
+        </div>
+      </div> 
+    {% endfor %}
+
+    {% for i in users %}
+    <h2>{{i.username}}</h2>
+    {% endfor %}
+    
+{% endblock body %}
+
+{% comment %} <!DOCTYPE html> {% endcomment %}

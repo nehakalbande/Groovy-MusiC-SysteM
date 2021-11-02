@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block title %} Artist Fan Groups{% endblock title %}
+{% block body %}
+{% load static %}
+<br>
+
+<div class="container">
+  <div class="col-md-13">
+    <form class="form-horizontal" role="search" method="get" action=''>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group">
+           
+            <select name="singers" class="custom-select mx-1" style="border-radius: 5px;">
+              <option selected="selected" disabled>Singers</option>
+              {% if all_singers %}
+                  {% for singer in all_singers %}
+                      <option value={{singer}}>{{singer}}</option>
+                  {% endfor %}
+              {% endif %}
+            </select>
+           
+            <span class='input-group-btn'>
+              <button type="submit" style="border-radius: 5px;background-color: #2B0530;" class="btn btn-primary"  >Search</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <form method="post">
+                        {% csrf_token %}
+                        <button style="float: right;" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-plus" aria-hidden="true"></i> Create New Artist Group</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">New Artist Group</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label"> Artist Name</label>
+                                                <input type="text" class="form-control" id="recipient-name"
+                                                    name="artist_fan_group">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="Submit" class="btn btn-primary">Create New Artist Group</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                     <form method="post">
+                        {% csrf_token %}
+                        <select style="margin-left: 10px;width: 170px;" class="btn btn-success"
+                            onChange="form.submit();" name="artist_fan_group">
+                            <option selected="selected" disabled style="color: black;">Add to Fan Group</option>
+                            {% if artist_fan_groups %}
+                            {% for artist_fan_group in artist_fan_groups %}
+                            <option value={{artist_fan_group.artist_fan_group_name}}>{{artist_fan_group.artist_fan_group_name}}</option>
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                    </form>
+
+                    <div class="row">
+    {% if artist_fan_groups %}
+    {% for artist_fan_group in artist_fan_groups %}
+    <div class="col-md-3">
+      <div class="thumbnail">
+        <a href="{% url 'artist_fan_group_songs' artist_fan_group.artist_fan_group_name %}">
+          <img src="{% static 'musicapp/images/bg.jpg' %}" class="img-responsive" height="200" width="200">
+        </a>
+        <center>
+          <h4 style="margin-left:-50px">{{artist_fan_group.artist_fan_group_name}}</h4>
+        </center>
+      </div>
+      
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>There isn't any fan group yet! First create new fan group.</p>
+   
+    {% endif %}
+  </div>
+
+  </div>
+
+
+
+{% comment %} <div class="container">
+
+  <header class="section-heading">
+    <h3 class="section-title">All Fan Groups</h3>
+    <div class="details col-md-8">
+                   
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <button style="float: right;" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-plus" aria-hidden="true"></i> Create New Artist Group</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">New Artist Group</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label"> Artist Name</label>
+                                                <input type="text" class="form-control" id="recipient-name"
+                                                    name="artist_fan_group">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="Submit" class="btn btn-primary">Create New Artist Group</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                   <form method="post">
+                        {% csrf_token %}
+                        <select style="margin-left: 10px;width: 170px;" class="btn btn-success"
+                            onChange="form.submit();" name="artist_fan_group">
+                            <option selected="selected" disabled style="color: black;">Add to Fan Group</option>
+                            {% if artist_fan_groups %}
+                            {% for artist_fan_group in artist_fan_groups %}
+                            <option value={{artist_fan_group.artist_fan_group_name}}>{{artist_fan_group.artist_fan_group_name}}</option>
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                    </form>
+
+                   
+
+
+
+                </div>
+  </header><!-- sect-heading -->
+  <hr>
+  <!-- Movie list -->
+  <div class="row">
+    {% if artist_fan_groups %}
+    {% for artist_fan_group in artist_fan_groups %}
+    <div class="col-md-3">
+      <div class="thumbnail">
+        <a href="{% url 'artist_fan_group_songs' artist_fan_group.artist_fan_group_name %}">
+          <img src="{% static 'musicapp/images/bg.jpg' %}" class="img-responsive" height="200" width="200">
+        </a>
+        <center>
+          <h4 style="margin-left:-50px">{{artist_fan_group.artist_fan_group_name}}</h4>
+        </center>
+      </div>
+      
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>There isn't any fan group yet! First create new fan group.</p>
+   
+    {% endif %}
+  </div>
+
+</div> {% endcomment %}
+
+{% endblock body %}
