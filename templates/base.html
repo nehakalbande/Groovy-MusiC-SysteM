@@ -145,7 +145,7 @@
                 <a href="{% url 'index' %}" class="btn btn-outline-light mt-2 mx-1">HOME</a>
                 <a href="{% url 'all_songs' %}" class="btn btn-outline-light mt-2 mx-1">ALL SONGS</a>
                 {% if request.user.is_active %}
-            <a href="{% url 'artist_fan_group' %}" class="btn btn-outline-light mt-2 mx-1">ARTISTS FAN GROUPS</a>
+            {% comment %} <a href="{% url 'artist_fan_group' %}" class="btn btn-outline-light mt-2 mx-1">ARTISTS FAN GROUPS</a> {% endcomment %}
             {% comment %} <a href="{% url 'friends' %}" class="btn btn-outline-light mt-2 mx-1">FRIENDS</a> {% endcomment %}
             
                
@@ -155,7 +155,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'playlist' %}">Playlists</a>
+                        <a class="dropdown-item" href="{% url 'playlist' %}">Artist Fan Group</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'favourite' %}">Favourite Songs</a>
                         </div>

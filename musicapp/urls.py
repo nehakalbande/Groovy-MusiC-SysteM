@@ -6,12 +6,12 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('<int:song_id>/', views.detail, name='detail'),
     path('mymusic/', views.mymusic, name='mymusic'),
-    path('artist_fan_group/', views.artist_fan_group, name='artist_fan_group'),
+    # path('artist_fan_group/', views.artist_fan_group, name='artist_fan_group'),
 
-    path('artist_fan_group/<str:artist_fan_group_name>/', views.artist_fan_group_songs, name='artist_fan_group_songs'),
+    # path('artist_fan_group/<str:artist_fan_group_name>/', views.artist_fan_group_songs, name='artist_fan_group_songs'),
   
-    path('playlist/', views.playlist, name='playlist'),
-    path('playlist/<str:playlist_name>/', views.playlist_songs, name='playlist_songs'),
+    path('artist_fan_group/', views.playlist, name='playlist'),
+    path('artist_fan_group/<str:playlist_name>/', views.playlist_songs, name='playlist_songs'),
     path('favourite/', views.favourite, name='favourite'),
     path('all_songs/', views.all_songs, name='all_songs'),
     path('recent/', views.recent, name='recent'),

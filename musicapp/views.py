@@ -258,7 +258,7 @@ def detail(request, song_id):
             playlist_name = request.POST["playlist"]
             q = Playlist(user=request.user, song=songs, playlist_name=playlist_name)
             q.save()
-            messages.success(request, "Song added to playlist!")
+            messages.success(request, "Artist added to Artist Fan Group")
 
         # elif 'artist_fan_group' in request.POST:
         #     artist_fan_group_name = request.POST["artist_fan_group"]
@@ -304,7 +304,7 @@ def playlist_songs(request, playlist_name):
         song_id = list(request.POST.keys())[1]
         playlist_song = Playlist.objects.filter(playlist_name=playlist_name, song__id=song_id, user=request.user)
         playlist_song.delete()
-        messages.success(request, "Song removed from playlist!")
+        messages.success(request, "Artist removed from Artist Fan Group!")
 
     context = {'playlist_name': playlist_name, 'songs': songs}
 
