@@ -45,13 +45,34 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        {% comment %} <form>
                                             <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label"> Artist Name</label>
+                                                {% comment %} <label for="recipient-name" class="col-form-label"> Artist Name</label>
                                                 <input type="text" class="form-control" id="recipient-name"
-                                                    name="artist_fan_group">
-                                            </div>
-                                        </form>
+                                                    name="artist_fan_group"> {% endcomment %}
+
+                                            {% comment %} </div>
+                                        </form> {% endcomment %} 
+
+                                        <form class="form-horizontal"  action=''>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group">
+           
+            <select name="singers" class="custom-select mx-1" style="border-radius: 5px;">
+              <option selected="selected" disabled>Singers</option>
+              {% if all_singers %}
+                  {% for singer in all_singers %}
+                      <option value={{singer}}>{{singer}}</option>
+                  {% endfor %}
+              {% endif %}
+            </select>
+           
+            
+          </div>
+        </div>
+      </div>
+    </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -62,20 +83,23 @@
                             </div>
                         </div>
                     </form>
-                     <form method="post">
+
+
+{% comment %} 
+                      <form method="post">
                         {% csrf_token %}
                         <select style="margin-left: 10px;width: 170px;" class="btn btn-success"
                             onChange="form.submit();" name="artist_fan_group">
                             <option selected="selected" disabled style="color: black;">Add to Fan Group</option>
                             {% if artist_fan_groups %}
                             {% for artist_fan_group in artist_fan_groups %}
-                            <option value={{artist_fan_group.artist_fan_group_name}}>{{artist_fan_group.artist_fan_group_name}}</option>
+                            <option value={{artist_fan_group.artist_fan_group__name}}>{{artist_fan_group.artist_fan_group__name}}</option>
                             {% endfor %}
                             {% endif %}
                         </select>
-                    </form>
+                    </form>  {% endcomment %}
 
-                    <div class="row">
+                    {% comment %} <div class="row">
     {% if artist_fan_groups %}
     {% for artist_fan_group in artist_fan_groups %}
     <div class="col-md-3">
@@ -93,7 +117,33 @@
     {% else %}
     <p>There isn't any fan group yet! First create new fan group.</p>
    
+    {% endif %} {% endcomment %}
+
+     <div class="row" style="margin-right: 65px;margin-left:-15px;">
+    {% if singers %}
+    {% for singer in singers %}
+    <div class="col-sm-2 col-md-2" style="padding-bottom: 15px;">
+      <div class="hovereffect">
+        {% comment %} <img src="{{ song.song_img.url}}" class="img-responsive" height="135" width="135" {% endcomment %}
+          <img src="{% static 'musicapp/images/bg.jpg' %}" class="img-responsive" height="200" width="200">
+          <h1>{singer}</h1>
+          style="border-radius: 8px 8px 8px 8px;">
+        <div class="overlay">
+          <a class="btn btn-outline-light mt-5 mx-1" href="{% url 'play_song' song.id %}"><i class="fa fa-play"
+              aria-hidden="true"></i></a>
+          <a class="btn btn-outline-light mt-5 mx-1" href="{% url 'detail' song.id %}"><i class="fa fa-info-circle"
+              aria-hidden="true"></i></a>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
     {% endif %}
+
+  </div>
+
+  
+
   </div>
 
   </div>

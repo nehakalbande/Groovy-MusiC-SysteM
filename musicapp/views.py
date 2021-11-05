@@ -264,7 +264,7 @@ def detail(request, song_id):
         #     artist_fan_group_name = request.POST["artist_fan_group"]
         #     q = Artist_Fan_Group(user=request.user, song=songs, artist_fan_group_name=artist_fan_group_name)
         #     q.save()
-        #     messages.success(request, "Song added to playlist!")
+        #     messages.success(request, "Song added to Artist Fan Group!")
 
         elif 'add-fav' in request.POST:
             is_fav = True
@@ -283,7 +283,7 @@ def detail(request, song_id):
             messages.success(request, "Removed from favorite!")
             return redirect('detail', song_id=song_id)
 
-    context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite,'last_played':last_played_song }
+    context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite,'last_played':last_played_song}
     return render(request, 'musicapp/detail.html', context=context)
 
 
@@ -349,13 +349,16 @@ def artist_fan_group_songs(request, artist_fan_group_name):
 
 
 def artist_fan_group(request):
-    songs = Song.objects.all()
 
+    songs = Song.objects.all()
+    # artist_fan_groups = Artist_Fan_Group.objects.filter(user=request.user).values('artist_fan_group_name').distinct
     
     # apply search filters
     qs_singers = Song.objects.values_list('singer').all()
     s_list = [s.split(',') for singer in qs_singers for s in singer]
     all_singers = sorted(list(set([s.strip() for singer in s_list for s in singer])))
+
+
     
     
     if len(request.GET) > 0:
@@ -380,3 +383,17 @@ def artist_fan_group(request):
         'query_search' : False,
         }
     return render(request, 'musicapp/artist_fan_group.html', context=context)
+
+    artist_fan_groups = Artist_Fan_Group.objects.filter(user=request.user).values('artist_fan_group_name').distinct
+    context = {'artist_fan_groups': artist_fan_groups}
+
+    if request.method == "POST":
+           
+        if 'artist_fan_group' in request.POST:
+            artist_fan_group_name = request.POST["artist_fan_group"]
+            q = Artist_Fan_Group(user=request.user, song=songs, artist_fan_group_name=artist_fan_group_name)
+            q.save()
+            messages.success(request, "Song added to Artist Fan Group!")
+    context = {'artist_fan_groups':artist_fan_groups}
+    return render(request, 'musicapp/artist_fan_group.html', context=context)
+

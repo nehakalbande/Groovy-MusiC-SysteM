@@ -39,9 +39,11 @@ class RegistrationForm(UserCreationForm):
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
         user1 = super(RegistrationForm, self).save(commit=False)
+        user2 = super(RegistrationForm, self).save(commit=False)
         if commit:
             user.save()
             user1.save()
+            user2.save()
             print("Saving module")
             print(user1)
         return user
