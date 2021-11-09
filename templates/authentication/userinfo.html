@@ -25,20 +25,16 @@
     {% endcomment %} 
     
     {% for i in users %}
-    <div class="card">
-        <div class="card-header">Header</div>
-        <div class="card-body">Content</div> 
-        <div class="card-footer">      
-          <div class="btn-wrapper text-center">
-            <a class="btn btn-secondary text-dark btn-sm">{{i.username}}</a> 
-            <a class="btn btn-warning" style="">Next</a>
+    <div class="card" style="width: 500px; margin-left: 500px; margin-top: 8px;">
+        <div class="row">
+          <div class="card-body" style="margin-left: 20px;" >{{i.username}}</div> 
+        <!-- <div class="card-footer">       -->
+          <div class="btn-wrapper text-center" style="display: inline-block; margin-right: 200px; margin-top: 17px;">
+            <a class="btn btn-secondary text-light btn-sm" style="background-color: rgb(63, 10, 63) !important;">Add Friend</a> 
           </div>
+        <!-- </div> -->
         </div>
       </div> 
-    {% endfor %}
-
-    {% for i in users %}
-    <h2>{{i.username}}</h2>
     {% endfor %}
     
 {% endblock body %}
