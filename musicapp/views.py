@@ -3,6 +3,8 @@ from .models import *
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 
 
 # Create your views here.
@@ -172,18 +174,23 @@ def all_songs(request):
     all_singers = sorted(list(set([s.strip() for singer in s_list for s in singer])))
     qs_languages = Song.objects.values_list('language').all()
     all_languages = sorted(list(set([l.strip() for lang in qs_languages for l in lang])))
+    query = request.GET.get('q')
+    object_list = User.objects.filter(username__icontains=query)
     
     if len(request.GET) > 0:
         search_query = request.GET.get('q')
         search_singer = request.GET.get('singers') or ''
         search_language = request.GET.get('languages') or ''
         filtered_songs = songs.filter(Q(name__icontains=search_query)).filter(Q(language__icontains=search_language)).filter(Q(singer__icontains=search_singer)).distinct()
+        query = request.GET.get('q')
+        object_list = User.objects.filter(username__icontains=query)
         context = {
         'songs': filtered_songs,
         'last_played':last_played_song,
         'all_singers': all_singers,
         'all_languages': all_languages,
         'query_search': True,
+        'users': object_list,
         }
         return render(request, 'musicapp/all_songs.html', context)
 
@@ -194,8 +201,11 @@ def all_songs(request):
         'all_singers': all_singers,
         'all_languages': all_languages,
         'query_search' : False,
+        'users': object_list,
         }
     return render(request, 'musicapp/all_songs.html', context=context)
+
+
 
 
 def recent(request):
