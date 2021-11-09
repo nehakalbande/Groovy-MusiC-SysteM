@@ -14,11 +14,14 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='profile',
             old_name='user',
-            new_name='user2',
+            new_name='user',
         ),
+    
         migrations.AlterField(
+            
+    
             model_name='profile',
             name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='user2'),
+            field=autoslug.fields.AutoSlugField(editable=False, populate_from='user'),
         ),
     ]

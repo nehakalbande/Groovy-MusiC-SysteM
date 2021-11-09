@@ -48,8 +48,9 @@
                   class="card-profile-stats d-flex justify-content-center mt-md-5"
                 >
                   <div>
-                    <span class="heading">{{ u.profile.friends.count }}</span>
-                    {% if request.user2 == u %}
+                    <span class="heading">{{ u.profile.fri
+                    ends.count }}</span>
+                    {% if request.user == u %}
                     <span class="description"
                       ><a href="{% url 'friend_list' %}">Friends</a></span
                     >
