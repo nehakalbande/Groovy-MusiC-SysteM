@@ -48,13 +48,17 @@ INSTALLED_APPS = [
     
     # external
     'crispy_forms',
+    'rest_framework',
+    'channels',
     
     # apps
     'authentication.apps.AuthenticationConfig',
     'musicapp.apps.MusicappConfig',
+    'core'
 ]
 
 MIDDLEWARE = [
+'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +87,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'musicplayer.wsgi.application'
+ASGI_APPLICATION = 'musicplayer.asgi.application'
 
 
 # Database
@@ -160,8 +165,21 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
+MESSAGES_TO_LOAD = 15
 
 SITE_ID = 1
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+
+}
+
+# ASGI_APPLICATION = 'chat.asgi.application'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
@@ -181,4 +199,18 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'offline',
         }
     }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [('127.0.0.1', 6379)],
+        # },
+    },
+}
+CHANNEL_LAYERS={
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+     }
 }

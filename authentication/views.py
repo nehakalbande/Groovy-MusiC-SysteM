@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import UserLoginForm, RegistrationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from .models import Profile, FriendRequest
+# from .models import Profile, FriendRequest
+from .models import Profile
 from django.conf import settings
 import random
 from django.contrib.auth.decorators import login_required
