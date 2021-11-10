@@ -170,7 +170,7 @@ def profile_view(request, slug):
 	if p not in request.user.profile.friends.all():
 		button_status = 'not_friend'
 
-		# if we have sent him a friend request
+		# if we have sent him a friend request										
 		if len(FriendRequest.objects.filter(
 			from_user=request.user).filter(to_user=p.user)) == 1:
 				button_status = 'friend_request_sent'
@@ -192,20 +192,23 @@ def profile_view(request, slug):
 
 @login_required
 def my_profile(request):
-	p = request.user.profile
-	you = p.user
+	# # print(request.user.__dir__)
+	p = request.user
+	user_object = Profile.objects.filter(user=p)
+	print(user_object)
+	you = user_object[0]
 	sent_friend_requests = FriendRequest.objects.filter(from_user=you)
 	rec_friend_requests = FriendRequest.objects.filter(to_user=you)
-	friends = p.friends.all()
+	friends = you.friends.all()
 
 	# is this user our friend
 	button_status = 'none'
-	if p not in request.user.profile.friends.all():
+	if you not in friends:
 		button_status = 'not_friend'
 
 		# if we have sent him a friend request
 		if len(FriendRequest.objects.filter(
-			from_user=request.user).filter(to_user=you)) == 1:
+			from_user=you).filter(to_user=you)) == 1:
 				button_status = 'friend_request_sent'
 
 		if len(FriendRequest.objects.filter(
@@ -219,8 +222,10 @@ def my_profile(request):
 		'sent_friend_requests': sent_friend_requests,
 		'rec_friend_requests': rec_friend_requests,
 	}
+ 
+	
 
-	return render(request, "authentication/profile.html", context)
+	return render(request, "authentication/profile.html", {})
 
 
 @login_required
