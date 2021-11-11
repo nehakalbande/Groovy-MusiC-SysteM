@@ -3,6 +3,8 @@ from .models import *
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 
 
 # Create your views here.
@@ -29,11 +31,11 @@ def index(request):
             last_played_song = Song.objects.get(id=last_played_id)
         else:
             first_time = True
-            last_played_song = Song.objects.get(id=7)
+            last_played_song = Song.objects.get(id=1)
 
     else:
         first_time = True
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=1)
 
     #Display all songs
     songs = Song.objects.all()
@@ -81,7 +83,7 @@ def hindi_songs(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=1)
 
     query = request.GET.get('q')
 
@@ -104,7 +106,7 @@ def english_songs(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=1)
 
     query = request.GET.get('q')
 
@@ -172,18 +174,23 @@ def all_songs(request):
     all_singers = sorted(list(set([s.strip() for singer in s_list for s in singer])))
     qs_languages = Song.objects.values_list('language').all()
     all_languages = sorted(list(set([l.strip() for lang in qs_languages for l in lang])))
+    # query = request.GET.get('q')
+    # object_list = User.objects.filter(username__icontains=query)
     
     if len(request.GET) > 0:
         search_query = request.GET.get('q')
         search_singer = request.GET.get('singers') or ''
         search_language = request.GET.get('languages') or ''
         filtered_songs = songs.filter(Q(name__icontains=search_query)).filter(Q(language__icontains=search_language)).filter(Q(singer__icontains=search_singer)).distinct()
+        # query = request.GET.get('q')
+        # object_list = User.objects.filter(username__icontains=query)
         context = {
         'songs': filtered_songs,
         'last_played':last_played_song,
         'all_singers': all_singers,
         'all_languages': all_languages,
         'query_search': True,
+        # 'users': object_list,
         }
         return render(request, 'musicapp/all_songs.html', context)
 
@@ -194,8 +201,11 @@ def all_songs(request):
         'all_singers': all_singers,
         'all_languages': all_languages,
         'query_search' : False,
+        # 'users': object_list,
         }
     return render(request, 'musicapp/all_songs.html', context=context)
+
+
 
 
 def recent(request):
@@ -258,13 +268,13 @@ def detail(request, song_id):
             playlist_name = request.POST["playlist"]
             q = Playlist(user=request.user, song=songs, playlist_name=playlist_name)
             q.save()
-            messages.success(request, "Song added to playlist!")
+            messages.success(request, "Artist added to Artist Fan Group")
 
         # elif 'artist_fan_group' in request.POST:
         #     artist_fan_group_name = request.POST["artist_fan_group"]
         #     q = Artist_Fan_Group(user=request.user, song=songs, artist_fan_group_name=artist_fan_group_name)
         #     q.save()
-        #     messages.success(request, "Song added to playlist!")
+        #     messages.success(request, "Song added to Artist Fan Group!")
 
         elif 'add-fav' in request.POST:
             is_fav = True
@@ -283,7 +293,7 @@ def detail(request, song_id):
             messages.success(request, "Removed from favorite!")
             return redirect('detail', song_id=song_id)
 
-    context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite,'last_played':last_played_song }
+    context = {'songs': songs, 'playlists': playlists, 'is_favourite': is_favourite,'last_played':last_played_song}
     return render(request, 'musicapp/detail.html', context=context)
 
 
@@ -304,7 +314,7 @@ def playlist_songs(request, playlist_name):
         song_id = list(request.POST.keys())[1]
         playlist_song = Playlist.objects.filter(playlist_name=playlist_name, song__id=song_id, user=request.user)
         playlist_song.delete()
-        messages.success(request, "Song removed from playlist!")
+        messages.success(request, "Artist removed from Artist Fan Group!")
 
     context = {'playlist_name': playlist_name, 'songs': songs}
 
@@ -349,13 +359,16 @@ def artist_fan_group_songs(request, artist_fan_group_name):
 
 
 def artist_fan_group(request):
-    songs = Song.objects.all()
 
+    songs = Song.objects.all()
+    # artist_fan_groups = Artist_Fan_Group.objects.filter(user=request.user).values('artist_fan_group_name').distinct
     
     # apply search filters
     qs_singers = Song.objects.values_list('singer').all()
     s_list = [s.split(',') for singer in qs_singers for s in singer]
     all_singers = sorted(list(set([s.strip() for singer in s_list for s in singer])))
+
+
     
     
     if len(request.GET) > 0:
@@ -380,3 +393,17 @@ def artist_fan_group(request):
         'query_search' : False,
         }
     return render(request, 'musicapp/artist_fan_group.html', context=context)
+
+    artist_fan_groups = Artist_Fan_Group.objects.filter(user=request.user).values('artist_fan_group_name').distinct
+    context = {'artist_fan_groups': artist_fan_groups}
+
+    if request.method == "POST":
+           
+        if 'artist_fan_group' in request.POST:
+            artist_fan_group_name = request.POST["artist_fan_group"]
+            q = Artist_Fan_Group(user=request.user, song=songs, artist_fan_group_name=artist_fan_group_name)
+            q.save()
+            messages.success(request, "Song added to Artist Fan Group!")
+    context = {'artist_fan_groups':artist_fan_groups}
+    return render(request, 'musicapp/artist_fan_group.html', context=context)
+

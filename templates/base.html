@@ -68,6 +68,26 @@
     padding: 10px;
   }
 
+  #myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: red; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
+
   .hovereffect a.info {
     text-decoration: none;
     display: inline-block;
@@ -145,7 +165,7 @@
                 <a href="{% url 'index' %}" class="btn btn-outline-light mt-2 mx-1">HOME</a>
                 <a href="{% url 'all_songs' %}" class="btn btn-outline-light mt-2 mx-1">ALL SONGS</a>
                 {% if request.user.is_active %}
-            <a href="{% url 'artist_fan_group' %}" class="btn btn-outline-light mt-2 mx-1">ARTISTS FAN GROUPS</a>
+            {% comment %} <a href="{% url 'artist_fan_group' %}" class="btn btn-outline-light mt-2 mx-1">ARTISTS FAN GROUPS</a> {% endcomment %}
             {% comment %} <a href="{% url 'friends' %}" class="btn btn-outline-light mt-2 mx-1">FRIENDS</a> {% endcomment %}
             
                
@@ -155,7 +175,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'playlist' %}">Playlists</a>
+                        <a class="dropdown-item" href="{% url 'playlist' %}">Artist Fan Group</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'favourite' %}">Favourite Songs</a>
                         </div>
@@ -171,10 +191,11 @@
             {% else %}
             <a href="{% url 'login' %}" class="btn btn-light mt-2 mx-2"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a>
             <a href="{% url 'signup' %}" class="btn btn-light mt-2 mx-2"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+           
             {% endif %}            
             </div>
         </div>
-
+    
     </nav>
 
     {% block body %}
@@ -195,5 +216,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js" integrity="sha512-HYG9E+RmbXS7oy529Nk8byKFw5jqM3R1zzvoV2JnltsIGkK/AhZSzciYCNxDMOXEbYO9w6MJ6SpuYgm5PJPpeQ==" crossorigin="anonymous"></script>
     {% block js %} {% endblock js %}
+    
 </body>
 </html>

@@ -37,8 +37,8 @@ class Favourite(models.Model):
 class Artist_Fan_Group(models.Model):
     # id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # singer = models.ForeignKey(Song,  on_delete=models.CASCADE)
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    singer = models.ForeignKey(Song,  on_delete=models.CASCADE)
+    # song = models.ForeignKey(Song, on_delete=models.CASCADE)
     artist_fan_group_name=  models.CharField(max_length=200)
     # is_fav = models.BooleanField(default=False)
 
