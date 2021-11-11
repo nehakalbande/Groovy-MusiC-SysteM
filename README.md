@@ -26,11 +26,11 @@ $ python manage.py runserver
 ⚡️ Play song, view detailed information of song.\
 ⚡️ Search songs.\
 ⚡️ Filter songs based on language and singer.\
-⚡️ Create new playlist.\
-⚡️ Add/Remove songs to/from playlist.\
+⚡️ Create new artist fan groups.\
+⚡️ Add/Remove songs to/from artistfangroups.\
 ⚡️ Add/Remove songs to/from favourites.\
 ⚡️ Scroll through recently played/viewed songs.\
-⚡️ Explore songs through your personalized playlist and favourites.
+⚡️ Explore songs through your personalized artist fan groups and favourites.
 
 
 ---
