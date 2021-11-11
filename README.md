@@ -1,5 +1,6 @@
-# Django based music streaming website
+# GROOVY
 
+Groovy is an Online Music Player System , a Web Application which helps people to listen to songs with free and instant access, has a provision to add them in Favorites , and contains many more features.
 ----
 
 ## Installation 📦
