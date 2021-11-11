@@ -31,11 +31,11 @@ def index(request):
             last_played_song = Song.objects.get(id=last_played_id)
         else:
             first_time = True
-            last_played_song = Song.objects.get(id=7)
+            last_played_song = Song.objects.get(id=1)
 
     else:
         first_time = True
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=1)
 
     #Display all songs
     songs = Song.objects.all()
@@ -83,7 +83,7 @@ def hindi_songs(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=1)
 
     query = request.GET.get('q')
 
@@ -106,7 +106,7 @@ def english_songs(request):
         last_played_id = last_played_list[0]['song_id']
         last_played_song = Song.objects.get(id=last_played_id)
     else:
-        last_played_song = Song.objects.get(id=7)
+        last_played_song = Song.objects.get(id=1)
 
     query = request.GET.get('q')
 
@@ -174,23 +174,23 @@ def all_songs(request):
     all_singers = sorted(list(set([s.strip() for singer in s_list for s in singer])))
     qs_languages = Song.objects.values_list('language').all()
     all_languages = sorted(list(set([l.strip() for lang in qs_languages for l in lang])))
-    query = request.GET.get('q')
-    object_list = User.objects.filter(username__icontains=query)
+    # query = request.GET.get('q')
+    # object_list = User.objects.filter(username__icontains=query)
     
     if len(request.GET) > 0:
         search_query = request.GET.get('q')
         search_singer = request.GET.get('singers') or ''
         search_language = request.GET.get('languages') or ''
         filtered_songs = songs.filter(Q(name__icontains=search_query)).filter(Q(language__icontains=search_language)).filter(Q(singer__icontains=search_singer)).distinct()
-        query = request.GET.get('q')
-        object_list = User.objects.filter(username__icontains=query)
+        # query = request.GET.get('q')
+        # object_list = User.objects.filter(username__icontains=query)
         context = {
         'songs': filtered_songs,
         'last_played':last_played_song,
         'all_singers': all_singers,
         'all_languages': all_languages,
         'query_search': True,
-        'users': object_list,
+        # 'users': object_list,
         }
         return render(request, 'musicapp/all_songs.html', context)
 
@@ -201,7 +201,7 @@ def all_songs(request):
         'all_singers': all_singers,
         'all_languages': all_languages,
         'query_search' : False,
-        'users': object_list,
+        # 'users': object_list,
         }
     return render(request, 'musicapp/all_songs.html', context=context)
 

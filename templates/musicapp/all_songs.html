@@ -38,7 +38,7 @@
               {% endif %}
             </select> {% endcomment %}
                           
-          <form
+          {% comment %} <form
   class="form-inline my-2 my-lg-0 ml-5"
   action="{% url 'search_users' %}"
   method="get"
@@ -84,7 +84,7 @@
     </div>
   </div>
   {% endblock content %}
-</div>
+</div> {% endcomment %}
 
             <span class='input-group-btn'>
               <button type="submit" style="border-radius: 5px;background-color: #2B0530;" class="btn btn-primary"  >Search</button>
